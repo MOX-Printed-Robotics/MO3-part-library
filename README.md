@@ -1,15 +1,31 @@
 # M3Z-part-library
 A library of standardized 3D printable parts written in OpenSCAD
 
-In brief:
+Quickstart:
 
-The M3Z part system was conceived as a tool for makers, hobbyists, students, and educators. Anyone can download the source code for M3Z parts, edit them in OpenSCAD, render, and print them for use in a host of different applications. M3Z parts can be roughly divided into two categories: structural parts and bridges. Structural parts are simple, strong, and easy to customize and print. They have 3mm holes laid out on a 10mm grid and can be joined together with standard metric M3 machine screws. These holes also double as bushings for 3mm round steel rods which serve as axles for wheels and other rotating components. Bridges are parts that "bridge" between structural parts and a motor, sensor, or any other product or object. For example, a small servo motor attaches to a 3D printed M3Z servo bridge, which attaches to a chassis made of printed structural parts.
+The easiest and most direct way to make use of this part library is to:
 
-Why a standardized part system for 3D printing?
+1) Download this repo as a zip file or use git clone.
+2) Find and use the ready-to-print STL files in the part library.
+3) Print and build get building!
 
-Standardization speeds up build workflows while lowering costs. Users can focus their efforts on designing and iterating any specialized components needed for their build, and simply use standard parts for the structure. Once a build is no longer being used, it can be disassembled and the parts re-used in a later build.
+If you want or need to generate custom parts from our source code .scad files:
 
-It also maximizes the utility of 3D printers and printed parts. Having a wide range of structural and connective parts available to print on-demand makes it so a 3D printer is all that is needed for many design applications. When a 3D printable part is designed to be M3Z-compatible, it instantly becomes much easier to work with and much more useful.
+1) Download this repo as a zip file or use git clone.
+2) Get OpenSCAD from http://openscad.org
+3) Open the desired .scad file from the part library in OpenSCAD.
+4) Edit parameters, hit render, and export an STL file.
+5) Print and get building!
 
-Finally, standardization fosters collaboration. Where there is a straightforward standard to follow, many different contributors from around the world can work together to create a cohesive extended system with minimal coordination.
+About M3Z:
+
+The M3Z part system is similar to and was inspired by commercially available part systems such as Lego or Erector. It differs in that M3Z is an open and decentralized system both in terms of design and manufacturing of parts. Anyone can 3D print their own M3Z parts free of charge, and anyone can design and share their own M3Z parts without restriction.
+
+M3Z parts can be roughly divided into two categories: structural parts and bridges. Structural parts are simple, strong, and easy to customize and print. They have 3mm holes laid out on a 10mm grid and can be joined together with standard metric M3 machine screws. These holes can also double as bushings for 3mm round steel rods which serve as axles for wheels and other rotating components. Bridges are parts that "bridge" between structural parts and a motor, sensor, or any other product or object. For example, a small servo motor attaches to a 3D printed M3Z servo bridge, which attaches to a chassis made of printed structural parts.
+
+About M3Z Robotics:
+
+M3Z Robotics is a mission-driven company whose role is to promote and develop a core set of M3Z parts and to ensure that this part library is free and open to the general public. You can support our work by visiting the M3Z Robotics web store
+
+
 
