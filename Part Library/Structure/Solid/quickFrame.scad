@@ -17,85 +17,88 @@ CHAMFER = 1.0; // The length of the legs of the triangle that defines the edge c
 
 DO_NUT_POCKETS = false; //set to false if no nut pockets desired.
 
+//modules
 
-//Derived Values (non-adjustable)
+module chamferFrame(dimensions,frameThickness,depth){
+    //where dimensions is a vector e.g. [10,20,30], frameThickness specifies how many mm thick the outer frame is, and depth is the depth of the chamfer.
+    
+    f=2*depth;
+    g=2*frameThickness;
+    
+    octaPoints = [ 
+                    [1,0,0],
+                    [0,1,0],
+                    [-1,0,0],
+                    [0,-1,0],
+                    [0,0,1],
+                    [0,0,-1]
+                ];
 
-length = M * 10; // Determined from N.
-width = N * 10;
-radius = HOLE_DIAMETER / 2; // Determined from HOLE_DIAMETER.
-tall = 10;
+    octaFaces = [   
+                    [0,4,1],
+                    [1,4,2],
+                    [2,4,3],
+                    [3,4,0],
+                    [0,1,5],
+                    [1,2,5],
+                    [2,3,5],
+                    [3,0,5] 
+                ];
+    translate([depth,depth,depth])
+    minkowski(){
+        difference(){
+            cube([dimensions[0]-f,dimensions[1]-f,dimensions[2]-f]);
+            translate([frameThickness-f,frameThickness-f,-10])
+            cube([dimensions[0]-g+f,dimensions[1]-g+f,100]);
+        }
+        polyhedron(octaPoints*depth, octaFaces);
+    }
+}
 
-A= CHAMFER*-1;
-B= CHAMFER*2;
+//variables (derived and not to be edited)
 
-hedrapoints = [
-[-1,-1,-1],
-[1,0,0],
-[0,1,0],
-[0,0,1]];
+h = 1;
+bodyWidth = N * 10; 
+bodyLength = M * 10; 
+bodyHeight = h * 10;
+bodyDims = [bodyWidth,bodyLength,bodyHeight];
 
-hedrafaces = [
-[0,1,2],
-[0,2,3],
-[0,3,1],
-[1,3,2]];
-
-outerpoints = [
-[-1,-1,-1],
-[1,0,1],
-[0,1,1],
-[1,1,0]];
-
-outerfaces = [
-[0,1,2],
-[0,2,3],
-[0,3,1],
-[1,3,2]];
+// Part Generating Code
 
 difference(){
-    cube([width,length,10]); //outermost shell
-    translate([10,10,-5]){ //large interior negative space
-        cube([width-20,length-20,20]);
-    }
+    chamferFrame(bodyDims,10,1);
+    
     for(i = [0:N-1]){ // hole pattern || to Z near XZ plane
-        translate([5+10*i,5,0]){
-            rotate(){
-                cylinder(h=30,d=HOLE_DIAMETER,center=true,$fn=20);
-            }
-        }
+        translate([5+10*i,5,0])
+        cylinder(h=30,d=HOLE_DIAMETER,center=true,$fn=20);
     }
+    
     for(i = [0:N-1]){ // hole pattern || to Z across from XZ plane
-        translate([5+10*i,length-5,0]){
-            rotate(){
-                cylinder(h=30,d=HOLE_DIAMETER,center=true,$fn=20);
-            }
-        }
+        translate([5+10*i,bodyLength-5,0])
+        cylinder(h=30,d=HOLE_DIAMETER,center=true,$fn=20);
     }
+    
     for(i = [0:M-3]){ // hole pattern || to Z near YZ plane
-        translate([5,15+10*i,0]){
-            rotate(){
-                cylinder(h=30,d=HOLE_DIAMETER,center=true,$fn=20);
-            }
-        }
+        translate([5,15+10*i,0])
+        cylinder(h=30,d=HOLE_DIAMETER,center=true,$fn=20);
     }
+    
     for(i = [0:M-3]){ // hole pattern || to Z across from YZ plane
-        translate([width-5,15+10*i,0]){
-            rotate(){
-                cylinder(h=30,d=HOLE_DIAMETER,center=true,$fn=20);
-            }
-        }
+        translate([bodyWidth-5,15+10*i,0])
+        cylinder(h=30,d=HOLE_DIAMETER,center=true,$fn=20);
     }
+    
     for(i = [0:N-1]){ // hole pattern || to Y axis
         translate([5+10*i,0,5]){
             rotate(90,[1,0,0]){
-                cylinder(h=length*3,d=HOLE_DIAMETER,center=true,$fn=20);
+                cylinder(h=bodyLength*3,d=HOLE_DIAMETER,center=true,$fn=20);
             }
         }
     }
     for(i = [0:M-1]){ // hole pattern || to X axis
         translate([0,5+10*i,5]){
             rotate(90,[0,1,0]){
-                cylinder(h=width*3,d=HOLE_DIAMETER,center=true,$fn=20);
+                cylinder(h=bodyWidth*3,d=HOLE_DIAMETER,center=true,$fn=20);
             }
         }
     }
@@ -103,13 +106,13 @@ difference(){
         translate([5-(NUT_MIN_WIDTH / 2),10-(NUT_THICKNESS / 2),5-(NUT_MAX_WIDTH / 2)]){
             cube([NUT_MIN_WIDTH,NUT_THICKNESS,9],center = false);
         }
-        translate([5-(NUT_MIN_WIDTH / 2),10-(NUT_THICKNESS / 2)+length - 20,5-(NUT_MAX_WIDTH / 2)]){
+        translate([5-(NUT_MIN_WIDTH / 2),10-(NUT_THICKNESS / 2)+bodyLength - 20,5-(NUT_MAX_WIDTH / 2)]){
             cube([NUT_MIN_WIDTH,NUT_THICKNESS,9],center = false);
         }
-        translate([5-(NUT_MIN_WIDTH / 2) + width - 10,10-(NUT_THICKNESS / 2),5-(NUT_MAX_WIDTH / 2)]){
+        translate([5-(NUT_MIN_WIDTH / 2) + bodyWidth - 10,10-(NUT_THICKNESS / 2),5-(NUT_MAX_WIDTH / 2)]){
             cube([NUT_MIN_WIDTH,NUT_THICKNESS,9],center = false);
         }
-        translate([5-(NUT_MIN_WIDTH / 2) + width - 10,10-(NUT_THICKNESS / 2)+length - 20,5-(NUT_MAX_WIDTH / 2)]){
+        translate([5-(NUT_MIN_WIDTH / 2) + bodyWidth - 10,10-(NUT_THICKNESS / 2)+bodyLength - 20,5-(NUT_MAX_WIDTH / 2)]){
             cube([NUT_MIN_WIDTH,NUT_THICKNESS,9],center = false);
         }
         translate([0,10,0]){
@@ -117,262 +120,23 @@ difference(){
                 translate([5-(NUT_MIN_WIDTH / 2),10-(NUT_THICKNESS / 2),5-(NUT_MAX_WIDTH / 2)]){
                     cube([NUT_MIN_WIDTH,NUT_THICKNESS,9],center = false);
                 }
-                translate([5-(NUT_MIN_WIDTH / 2),10-(NUT_THICKNESS / 2)+width - 20,5-(NUT_MAX_WIDTH / 2)]){
+                translate([5-(NUT_MIN_WIDTH / 2),10-(NUT_THICKNESS / 2)+bodyWidth - 20,5-(NUT_MAX_WIDTH / 2)]){
                     cube([NUT_MIN_WIDTH,NUT_THICKNESS,9],center = false);
                 }
             }
         }
-        translate([0,length,0]){
+        translate([0,bodyLength,0]){
             rotate(90,[0,0,-1]){
                 translate([5-(NUT_MIN_WIDTH / 2),10-(NUT_THICKNESS / 2),5-(NUT_MAX_WIDTH / 2)]){
                     cube([NUT_MIN_WIDTH,NUT_THICKNESS,9],center = false);
                 }
-                translate([5-(NUT_MIN_WIDTH / 2),10-(NUT_THICKNESS / 2)+width - 20,5-(NUT_MAX_WIDTH / 2)]){
+                translate([5-(NUT_MIN_WIDTH / 2),10-(NUT_THICKNESS / 2)+bodyWidth - 20,5-(NUT_MAX_WIDTH / 2)]){
                     cube([NUT_MIN_WIDTH,NUT_THICKNESS,9],center = false);
                 }
             }
         }
     }
-    //CUBIC CHAMFER GEOMETRY
     
-    //these first four are the four edges on the XZ plane.
-    linear_extrude(height = tall){
-        polygon(points=[[A,A],[A,B],[B,A]]);
-    }
-    translate([width,0,0]){
-        rotate(90,[0,-1,0]){
-            linear_extrude(height = width){
-                polygon(points=[[A,A],[A,B],[B,A]]);
-            }
-        }
-    }
-    translate([0,0,tall]){
-        rotate(270,[0,-1,0]){
-            linear_extrude(height = width){
-                polygon(points=[[A,A],[A,B],[B,A]]);
-            }
-        }
-    }
-    translate([width,0,tall]){
-        rotate(180,[0,-1,0]){
-            linear_extrude(height = tall){
-                polygon(points=[[A,A],[A,B],[B,A]]);
-            }
-        }
-    }
-    
-    //this block mirror-copies the XZ plane edges to the opposite face of the cube.
-    translate([width,length,0]){
-        rotate(180,[0,0,1]){
-                    linear_extrude(height = tall){
-                polygon(points=[[A,A],[A,B],[B,A]]);
-            }
-            translate([width,0,0]){
-                rotate(90,[0,-1,0]){
-                    linear_extrude(height = width){
-                        polygon(points=[[A,A],[A,B],[B,A]]);
-                    }
-                }
-            }
-            translate([0,0,tall]){
-                rotate(270,[0,-1,0]){
-                    linear_extrude(height = width){
-                        polygon(points=[[A,A],[A,B],[B,A]]);
-                    }
-                }
-            }
-            translate([width,0,tall]){
-                rotate(180,[0,-1,0]){
-                    linear_extrude(height = tall){
-                        polygon(points=[[A,A],[A,B],[B,A]]);
-                    }
-                }
-            }
-        }
-    }
-    
-    //These two are the remaining edges on the YZ plane.
-    translate([0,length,0]){
-        rotate(90,[1,0,0]){
-            linear_extrude(height = length){
-                polygon(points=[[A,A],[A,B],[B,A]]);
-            }
-        }
-    }
-    translate([0,0,tall]){
-        rotate(90,[-1,0,0]){
-            linear_extrude(height = length){
-                polygon(points=[[A,A],[A,B],[B,A]]);
-            }
-        }
-    }
-    
-    //This block mirror-copies the previous YZ plane edges to the opposite side, completing the cube.
-    translate([width,length,0]){
-        rotate(180,[0,0,1]){
-            translate([0,length,0]){
-                rotate(90,[1,0,0]){
-                    linear_extrude(height = length){
-                        polygon(points=[[A,A],[A,B],[B,A]]);
-                    }
-                }
-            }
-            translate([0,0,tall]){
-                rotate(90,[-1,0,0]){
-                    linear_extrude(height = length){
-                        polygon(points=[[A,A],[A,B],[B,A]]);
-                    }
-                }
-            }
-        }
-    }
-    //CUBIC INNER CHAMFER GEOMETRY
-    
-    translate([width-10,length-10,0]){
-        rotate(90,[0,-1,0]){
-            linear_extrude(height = width-20){
-                polygon(points=[[A,A],[A,B],[B,A]]);
-            }
-        }
-    }
-    translate([10,length-10,tall]){
-        rotate(270,[0,-1,0]){
-            linear_extrude(height = width-20){
-                polygon(points=[[A,A],[A,B],[B,A]]);
-            }
-        }
-    }
-    
-    translate([width,length,0]){
-        rotate(180,[0,0,1]){
-            translate([width-10,length-10,0]){
-                rotate(90,[0,-1,0]){
-                    linear_extrude(height = width-20){
-                        polygon(points=[[A,A],[A,B],[B,A]]);
-                    }
-                }
-            }
-            translate([10,length-10,tall]){
-                rotate(270,[0,-1,0]){
-                    linear_extrude(height = width-20){
-                        polygon(points=[[A,A],[A,B],[B,A]]);
-                    }
-                }
-            }
-        }
-    }
-    
-    translate([width-10,length-10,0]){
-        rotate(90,[1,0,0]){
-            linear_extrude(height = length-20){
-                polygon(points=[[A,A],[A,B],[B,A]]);
-            }
-        }
-    }
-    translate([width-10,10,tall]){
-        rotate(90,[-1,0,0]){
-            linear_extrude(height = length-20){
-                polygon(points=[[A,A],[A,B],[B,A]]);
-            }
-        }
-    }
-    
-    translate([width,length,0]){
-        rotate(180,[0,0,1]){
-            translate([width-10,length-10,0]){
-                rotate(90,[1,0,0]){
-                    linear_extrude(height = length-20){
-                        polygon(points=[[A,A],[A,B],[B,A]]);
-                    }
-                }
-            }
-            translate([width-10,10,tall]){
-                rotate(90,[-1,0,0]){
-                    linear_extrude(height = length-20){
-                        polygon(points=[[A,A],[A,B],[B,A]]);
-                    }
-                }
-            }
-        }
-    }
-    //inner chamfer corners
-    translate([width-10,length-10,0]){
-        polyhedron(hedrapoints, hedrafaces);
-    }
-    translate([width-10,10,0]){
-        rotate(90,[0,0,-1]){
-            polyhedron(hedrapoints, hedrafaces);
-        }
-    }
-    translate([10,10,0]){
-        rotate(180,[0,0,-1]){
-            polyhedron(hedrapoints, hedrafaces);
-        }
-    }
-    translate([10,length-10,0]){
-        rotate(270,[0,0,-1]){
-            polyhedron(hedrapoints, hedrafaces);
-        }
-    }
-    translate([0,length,10]){
-        rotate(180,[-1,0,0]){
-            translate([width-10,length-10,0]){
-                polyhedron(hedrapoints, hedrafaces);
-            }
-            translate([width-10,10,0]){
-                rotate(90,[0,0,-1]){
-                    polyhedron(hedrapoints, hedrafaces);
-                }
-            }
-            translate([10,10,0]){
-                rotate(180,[0,0,-1]){
-                    polyhedron(hedrapoints, hedrafaces);
-                }
-            }
-            translate([10,length-10,0]){
-                rotate(270,[0,0,-1]){
-                    polyhedron(hedrapoints, hedrafaces);
-                }
-            }
-        }
-    }
-    // outer chamfer corners
-    polyhedron(outerpoints, outerfaces);
-    translate([width,0,0]){
-        rotate(90,[0,0,1]){
-            polyhedron(outerpoints, outerfaces);
-        }
-    }
-    translate([width,length,0]){
-        rotate(180,[0,0,1]){
-            polyhedron(outerpoints, outerfaces);
-        }
-    }
-    translate([0,length,0]){
-        rotate(270,[0,0,1]){
-            polyhedron(outerpoints, outerfaces);
-        }
-    }
-    translate([width,0,10]){
-        rotate(180,[0,1,0]){
-            polyhedron(outerpoints, outerfaces);
-            translate([width,0,0]){
-                rotate(90,[0,0,1]){
-                    polyhedron(outerpoints, outerfaces);
-                }
-            }
-            translate([width,length,0]){
-                rotate(180,[0,0,1]){
-                    polyhedron(outerpoints, outerfaces);
-                }
-            }
-            translate([0,length,0]){
-                rotate(270,[0,0,1]){
-                    polyhedron(outerpoints, outerfaces);
-                }
-            }
-        }
-    }          
 }
 
 

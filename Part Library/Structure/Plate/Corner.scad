@@ -1,5 +1,5 @@
 /*  
-        Plate.scad
+        Bin.scad
         M3Z core library 1.0.0
 */
 
@@ -7,10 +7,11 @@
 
 N = 2; //whole number of 10mm units along the X axis
 M = 10; //whole number of 10mm units along the Y axis
+H = 1; //whole number of 10mm units along the Z axis.
 
 THICKNESS = 2.5; //Nominal 2.5mm - thickness of the walls of the part
 
-CHAMFER_DEPTH = 0.75; //Default 0.75mm
+CHAMFER_DEPTH = 1.0; //Default 1.0mm
 
 HOLE_DIAMETER = 3.2; //Nominal 3.0mm - common diameter of holes throughout
 
@@ -53,19 +54,44 @@ module chamferCube(dimensions,depth){
 
 //variables (derived and not to be edited)
 
-bodyWidth = N * 10;
-bodyLength = M * 10;
-bodyHeight = THICKNESS;
+bodyWidth = N * 10 + THICKNESS;
+bodyLength = M * 10 + THICKNESS;
+bodyHeight = H * 10 + THICKNESS;
 bodyDims = [bodyWidth,bodyLength,bodyHeight];
 
 //Part Generating Code
+
 difference(){
-    chamferCube(bodyDims,CHAMFER_DEPTH);
+    chamferCube(bodyDims,1);
+    translate([THICKNESS,THICKNESS,THICKNESS]){
+        cube([N*15,M*15,H*15]);
+    }
+    
     for(i = [0:N-1]){
         for(j = [0:M-1]){
-            translate([5+(10*i),5+(10*j),0]){
-                cylinder(h = 10, d = HOLE_DIAMETER, center = true, $fn = 20);
+            translate([THICKNESS+5+10*i, THICKNESS+5+10*j,0]){
+                cylinder(h= bodyHeight*3, d = HOLE_DIAMETER, center = true, $fn = HOLE_FACES);
+            }
+        }
+    }
+    for(i = [0:N-1]){
+        for(k = [0:H-1]){
+            translate([THICKNESS+5+10*i, 0, THICKNESS+5+10*k]){
+                rotate(90,[1,0,0]){
+                    cylinder(h=bodyLength*3, d=HOLE_DIAMETER, center = true, $fn = HOLE_FACES);
+                }
+            }
+        }
+    }
+    for(j = [0:M-1]){
+        for(k = [0:H-1]){
+            translate([0,THICKNESS+5+10*j,THICKNESS+5+10*k]){
+                rotate(90,[0,1,0]){
+                    cylinder(h=bodyWidth*3, d=HOLE_DIAMETER, center = true, $fn = HOLE_FACES);
+                }
             }
         }
     }
 }
+    
+
