@@ -1,7 +1,7 @@
 include <spurgearlib.scad>;
 
 //MAIN PARAMETERS
-SIZE = 3;
+SIZE = 4;
 OVERALL_HEIGHT=10;
 AXIS_BORE_DIAMETER = 3.0;
 

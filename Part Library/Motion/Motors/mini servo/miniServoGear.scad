@@ -33,17 +33,6 @@ cd = cutcyl_diameter;
 ch = cutcyl_height;
 sw = spoke_width;
 
-
-
-
-
-
-
-
-
-
-
-
 $fn = 50;
 // General Variables
 pi = 3.14159;
