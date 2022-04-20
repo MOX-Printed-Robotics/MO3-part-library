@@ -1,7 +1,7 @@
-NUT_ID = 5.4;
-FUDGE_ADDENDUM = 0.4;
+NUT_INSCRIBED_DIAMETER = 5.4;
+FUDGE_ADDENDUM = 0.3;
 
-nut_cd = NUT_ID / cos(30);
+nut_cd = NUT_INSCRIBED_DIAMETER / cos(30);
 socket_d = nut_cd + FUDGE_ADDENDUM;
 
 difference(){
