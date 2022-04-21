@@ -18,7 +18,7 @@
 
 Useful Resources:
 
-Our wiki on GitHub:
+This repo's GitHub wiki: https://github.com/M3Z-Robotics/M3Z-part-library/wiki
 
 
 
