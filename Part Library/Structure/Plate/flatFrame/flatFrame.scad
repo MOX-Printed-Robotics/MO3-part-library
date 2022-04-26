@@ -1,12 +1,12 @@
 /*  
-        Plate.scad
+        Flat.scad
         M3Z core library 1.0.0
 */
 
 //BEGIN OPTIONS - edit these parameters to generate custom parts of this form.
 
-N = 2; //whole number of 10mm units along the X axis
-M = 10; //whole number of 10mm units along the Y axis
+N = 5; //whole number of 10mm units along the X axis
+M = 5; //whole number of 10mm units along the Y axis
 
 THICKNESS = 2.5; //Nominal 2.5mm - thickness of the walls of the part
 
@@ -61,6 +61,10 @@ bodyDims = [bodyWidth,bodyLength,bodyHeight];
 //Part Generating Code
 difference(){
     chamferCube(bodyDims,CHAMFER_DEPTH);
+    
+    translate([10,10,-10])
+    cube([bodyWidth-20, bodyLength-20, 50]);
+    
     for(i = [0:N-1]){
         for(j = [0:M-1]){
             translate([5+(10*i),5+(10*j),0]){

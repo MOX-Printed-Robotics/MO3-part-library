@@ -5,9 +5,9 @@
 
 //BEGIN OPTIONS - edit these parameters to generate custom parts of this form.
 
-N = 2; //whole number of 10mm units along the X axis
-M = 2; //whole number of 10mm units along the Y axis
-H = 5; //whole number of 10mm units along the Z axis.
+N = 5; //whole number of 10mm units along the X axis
+M = 5; //whole number of 10mm units along the Y axis
+H = 3; //whole number of 10mm units along the Z axis.
 
 THICKNESS = 2.5; //Nominal 2.5mm - thickness of the walls of the part
 
