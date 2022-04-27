@@ -1,13 +1,3 @@
-/*
-    DAEDA_M3_Struct_1x1xN
-    "M3 QuickStick" 
-    
-    The adjustable variable N defines the length of this part. Use this code to generate any length you want by adjusting the value for N and hitting F6 or pressing Render.
-    
-    Printable in any orientation, but will have highest strength to weight ratio if printed laying flat rather than standing up.
-    
-*/
-
 
 //The following variables are adjustable:
 N = 5; // The number of 10mm length segments, or the number of holes along one edge. N does not strictly need to be a whole number, e.g. if N is 3.4 the resulting part will be 34 mm long. N can be 1 if a 1x1x1 cube with no nut pockets is desired.
