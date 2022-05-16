@@ -15,7 +15,7 @@ NUT_MAX_WIDTH = 6.22; // The circumscribed diameter of the nuts used, or in othe
 
 CHAMFER = 1.0; // The length of the legs of the triangle that defines the edge chamfer profile.
 
-DO_NUT_POCKETS = false; //set to false if no nut pockets desired.
+DO_NUT_POCKETS = false; //set to true or false depending on whether nut pockets are desired.
 
 //modules
 

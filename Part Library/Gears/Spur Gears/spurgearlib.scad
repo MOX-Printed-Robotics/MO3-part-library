@@ -1,3 +1,12 @@
+//Attribution note: This code was forked from a Creative Commons Licensed Github Repo. Link to this repo given below as well as link to the license.
+
+/*
+Getriebe Bibliothek f&uuml;r OpenSCAD / Gears Library for OpenSCAD (https://www.thingiverse.com/thing:1604369) by janssen86 is licensed under the Creative Commons - Attribution - Non-Commercial - Share Alike license.
+http://creativecommons.org/licenses/by-nc-sa/3.0/
+
+*/
+
+
 $fn = 50;
 // General Variables
 pi = 3.14159;
