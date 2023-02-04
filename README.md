@@ -6,7 +6,7 @@
 
 1) Download this repo as a zip file or use git clone.
 2) Find and use the ready-to-print STL files in the part library.
-3) Print and build get building!
+3) Print and get building!
 
 ### If you want to generate custom parts from our source .scad files:
 
