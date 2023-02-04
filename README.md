@@ -1,4 +1,4 @@
-# M3Z-part-library 
+# MO3-part-library 
 
 ## Quickstart:
 
@@ -16,9 +16,7 @@
 4) Edit parameters, hit render, and export an STL file.
 5) Print and get building!
 
-### Useful Resources:
 
-This repo's GitHub wiki: https://github.com/M3Z-Robotics/M3Z-part-library/wiki
 
 
 
