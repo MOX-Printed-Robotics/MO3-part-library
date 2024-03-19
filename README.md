@@ -12,7 +12,7 @@
 
 1) Download this repo as a zip file or use git clone.
 2) Get OpenSCAD from http://openscad.org
-3) Open the desired .scad file from the part library in OpenSCAD.
+3) Open the desired .scad file from this part library in OpenSCAD.
 4) Edit parameters, hit render, and export an STL file.
 5) Print and get building!
 
