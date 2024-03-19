@@ -1,4 +1,4 @@
-# MO3-part-library 
+# PRPL- Printed Robot Parts Library 
 
 ## Quickstart:
 
