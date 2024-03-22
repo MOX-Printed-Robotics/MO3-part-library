@@ -1,5 +1,6 @@
 cube_width = 20;
 connection_depth = 3;
+slop = 0.4; // Clearance addendum to all diameters in connection shafts
 
 side_length = cube_width * tan(22.5);
 layer_cutoff = side_length / sqrt(2);
@@ -10,7 +11,7 @@ strut_thickness=3;
 leg_separation=0.5;
 leg_separation_depth=3;
 
-cylinder_faces = 10;
+cylinder_faces = 30;
 
 center_to_center = 100;
 leg_strut_length = center_to_center - cube_width + (2 * connection_depth);
@@ -57,16 +58,16 @@ module strut(overall_length){
 
 module conshaft(){
     translate([0,0,cube_width/2 -connection_depth]){
-        cylinder(d=strut_legs_width,h=10,$fn=cylinder_faces);
-        cylinder(d=strut_toes_width,h=1,$fn=cylinder_faces);
+        cylinder(d=strut_legs_width + slop,h=10,$fn=cylinder_faces);
+        cylinder(d=strut_toes_width + slop,h=1,$fn=cylinder_faces);
         translate([0,0,1])
-            cylinder(d1 = strut_toes_width,d2 = strut_legs_width,h=1, $fn=cylinder_faces);
+            cylinder(d1 = strut_toes_width + slop,d2 = strut_legs_width + slop,h=1, $fn=cylinder_faces);
         
         //cutting profile of the strut keyway. 
         //allows the strut to enter and exit the connection once aligned.
         intersection(){
-            cube([strut_thickness,strut_toes_width,20], center=true);
-            cylinder(d=strut_toes_width,h=10,$fn=cylinder_faces);
+            cube([strut_thickness + slop,strut_toes_width + slop,20], center=true);
+            cylinder(d=strut_toes_width + slop,h=10,$fn=cylinder_faces);
         }
     }
 }
